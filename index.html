@@ -1,0 +1,2608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presingo - Earn Money Online</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Screen Management */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Authentication Styles */
+        .auth-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .auth-container h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .auth-container p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .auth-form input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .auth-form button:hover {
+            background: #45a049;
+        }
+
+        .auth-links {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .auth-links a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .admin-login-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            color: #4CAF50;
+            font-size: 1.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #userBalance {
+            font-weight: bold;
+            color: #4CAF50;
+            background: #f0f9f0;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        #logout-btn {
+            padding: 0.5rem 1rem;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #logout-btn:hover {
+            background: #ff3742;
+        }
+
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            overflow-x: auto;
+            background: white;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 0 1rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            border-bottom-color: #4CAF50;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .tab-btn:hover {
+            background: #f5f5f5;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            min-height: calc(100vh - 120px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards and Grids */
+        .cards-container {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-card, .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover, .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: black;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        /* Referral Code */
+        .referral-code {
+            background: #f8f9fa;
+            padding: 1rem;
+            border: 2px dashed #4CAF50;
+            border-radius: 8px;
+            text-align: center;
+            font-family: monospace;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 1rem 0;
+            letter-spacing: 2px;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Admin Styles */
+        .admin-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-section-btn {
+            padding: 1.5rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .admin-section-btn:hover {
+            background: #f8f9fa;
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .admin-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .admin-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Achievement Styles */
+        .achievement {
+            border-left: 4px solid #4CAF50;
+            background: linear-gradient(135deg, #f8fff8 0%, #f0f9f0 100%);
+        }
+
+        .achievement.locked {
+            border-left-color: #ddd;
+            opacity: 0.7;
+            background: #f8f9fa;
+        }
+
+        .achievement.locked .achievement-reward {
+            color: #999;
+        }
+
+        .achievement-reward {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Task and Job Cards */
+        .task-card, .job-card {
+            border-left: 4px solid #2196F3;
+        }
+
+        .affiliate-card {
+            border-left: 4px solid #FF9800;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tabs {
+                padding: 0 0.5rem;
+            }
+            
+            .tab-btn {
+                padding: 0.75rem 1rem;
+                font-size: 14px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        /* Utility Classes */
+        .text-success { color: #28a745; }
+        .text-danger { color: #dc3545; }
+        .text-warning { color: #ffc107; }
+        .text-muted { color: #6c757d; }
+        .text-info { color: #17a2b8; }
+
+        .hidden { display: none; }
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+
+        /* Welcome Message */
+        .welcome-message {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-message h2 {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .quick-action-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .quick-action-card:hover {
+            transform: translateY(-3px);
+            border-color: #4CAF50;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .quick-action-card h3 {
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Submission List */
+        .submission-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+        }
+
+        .submission-actions {
+            margin-top: 0.5rem;
+        }
+
+        /* WhatsApp Notification */
+        .whatsapp-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .whatsapp-notification:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Authentication Screens -->
+        <div id="auth-screen" class="screen active">
+            <div class="auth-container">
+                <h1>Presingo</h1>
+                <p>Earn money through freelancing, referrals, and more!</p>
+                
+                <div id="login-form" class="auth-form active">
+                    <h2>User Login</h2>
+                    <form id="loginForm">
+                        <input type="email" id="loginEmail" placeholder="Email" required>
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                        <button type="submit">Login</button>
+                    </form>
+                    <div class="auth-links">
+                        <a href="#" id="show-signup">Create Account</a>
+                        <span>|</span>
+                        <a href="#" id="show-admin-login">Login as Admin</a>
+                    </div>
+                </div>
+
+                <div id="signup-form" class="auth-form">
+                    <h2>User Sign Up</h2>
+                    <form id="signupForm">
+                        <input type="text" id="signupName" placeholder="Full Name" required>
+                        <input type="email" id="signupEmail" placeholder="Email" required>
+                        <input type="password" id="signupPassword" placeholder="Password" required>
+                        <input type="text" id="referralCode" placeholder="Referral Code (Optional)">
+                        <button type="submit">Create Account</button>
+                    </form>
+                    <div class="auth-links">
+                        <a href="#" id="show-login">Back to Login</a>
+                    </div>
+                </div>
+
+                <div id="admin-login-form" class="auth-form">
+                    <h2>Admin Login</h2>
+                    <form id="adminLoginForm">
+                        <input type="email" id="adminLoginEmail" placeholder="Admin Email" required>
+                        <input type="password" id="adminLoginPassword" placeholder="Admin Password" required>
+                        <button type="submit">Login as Admin</button>
+                    </form>
+                    <div class="auth-links">
+                        <a href="#" id="show-user-login">Back to User Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Main App Screen -->
+        <div id="user-screen" class="screen">
+            <header class="header">
+                <div class="header-content">
+                    <h1>Presingo - User Panel</h1>
+                    <div class="user-info">
+                        <span id="userBalance">₹0</span>
+                        <button id="user-logout-btn">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <nav class="tabs">
+                <button class="tab-btn active" data-tab="user-dashboard">Dashboard</button>
+                <button class="tab-btn" data-tab="user-freelance">Freelance</button>
+                <button class="tab-btn" data-tab="user-affiliate">Affiliate</button>
+                <button class="tab-btn" data-tab="user-tasks">Tasks</button>
+                <button class="tab-btn" data-tab="user-refer">Refer & Earn</button>
+                <button class="tab-btn" data-tab="user-achievements">Achievements</button>
+                <button class="tab-btn" data-tab="user-wallet">Wallet</button>
+                <button class="tab-btn" data-tab="user-profile">Profile</button>
+            </nav>
+
+            <main class="main-content">
+                <!-- User Dashboard Tab -->
+                <div id="user-dashboard" class="tab-content active">
+                    <div class="welcome-message">
+                        <h2>Welcome to Presingo!</h2>
+                        <p>Start earning money through various opportunities. Complete tasks, refer friends, and grow your income!</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Current Balance</h3>
+                            <p id="user-dashboard-balance">₹0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Pending Tasks</h3>
+                            <p id="user-pending-tasks">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Referral Earnings</h3>
+                            <p id="user-referral-earnings">₹0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Earnings</h3>
+                            <p id="user-total-earnings">₹0</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <div class="quick-action-card" onclick="app.switchTab('user-tasks')">
+                            <h3>Complete Tasks</h3>
+                            <p>Earn money by completing simple tasks</p>
+                        </div>
+                        <div class="quick-action-card" onclick="app.switchTab('user-refer')">
+                            <h3>Refer Friends</h3>
+                            <p>Get ₹90 for each friend who joins</p>
+                        </div>
+                        <div class="quick-action-card" onclick="app.switchTab('user-affiliate')">
+                            <h3>Affiliate Marketing</h3>
+                            <p>Earn commissions on sales</p>
+                        </div>
+                        <div class="quick-action-card" onclick="app.switchTab('user-freelance')">
+                            <h3>Freelance Jobs</h3>
+                            <p>Find work and get paid</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Freelance Tab -->
+                <div id="user-freelance" class="tab-content">
+                    <h2>Freelance Jobs</h2>
+                    <button id="user-add-job-btn" class="btn-primary">Post New Job</button>
+                    <div id="user-jobs-list" class="cards-container"></div>
+                </div>
+
+                <!-- User Affiliate Tab -->
+                <div id="user-affiliate" class="tab-content">
+                    <h2>Affiliate Marketing</h2>
+                    <div id="user-affiliate-products" class="cards-container"></div>
+                </div>
+
+                <!-- User Tasks Tab -->
+                <div id="user-tasks" class="tab-content">
+                    <h2>Available Tasks</h2>
+                    <div id="user-tasks-list" class="cards-container"></div>
+                </div>
+
+                <!-- User Refer & Earn Tab -->
+                <div id="user-refer" class="tab-content">
+                    <h2>Refer & Earn</h2>
+                    <div class="card">
+                        <h3>Your Referral Code</h3>
+                        <div class="referral-code" id="user-referral-code"></div>
+                        <p>Share this code with friends to earn ₹90 per referral!</p>
+                        <div class="referral-stats">
+                            <p>Total Referrals: <span id="user-total-referrals">0</span></p>
+                            <p>Referral Earnings: <span id="user-referral-total">₹0</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Achievements Tab -->
+                <div id="user-achievements" class="tab-content">
+                    <h2>Achievements</h2>
+                    <div id="user-achievements-list" class="cards-container"></div>
+                </div>
+
+                <!-- User Wallet Tab -->
+                <div id="user-wallet" class="tab-content">
+                    <h2>Wallet</h2>
+                    <div class="card">
+                        <h3>Current Balance: <span id="user-wallet-balance">₹0</span></h3>
+                        <button id="user-withdraw-btn" class="btn-primary">Request Withdrawal</button>
+                    </div>
+                    <h3 class="mt-3">Transaction History</h3>
+                    <div id="user-transactions-list"></div>
+                </div>
+
+                <!-- User Profile Tab -->
+                <div id="user-profile" class="tab-content">
+                    <h2>Profile</h2>
+                    <div class="card">
+                        <div class="profile-info">
+                            <p><strong>Name:</strong> <span id="user-profile-name"></span></p>
+                            <p><strong>Email:</strong> <span id="user-profile-email"></span></p>
+                            <p><strong>Role:</strong> <span id="user-profile-role"></span></p>
+                            <p><strong>Joined:</strong> <span id="user-profile-joined"></span></p>
+                            <p><strong>Referral Code:</strong> <span id="user-profile-referral-code"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Admin Main App Screen -->
+        <div id="admin-screen" class="screen">
+            <header class="header">
+                <div class="header-content">
+                    <h1>Presingo - Admin Panel</h1>
+                    <div class="user-info">
+                        <span>Administrator</span>
+                        <button id="admin-logout-btn">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <nav class="tabs">
+                <button class="tab-btn active" data-tab="admin-dashboard">Dashboard</button>
+                <button class="tab-btn" data-tab="admin-users">Manage Users</button>
+                <button class="tab-btn" data-tab="admin-jobs">Manage Jobs</button>
+                <button class="tab-btn" data-tab="admin-tasks">Manage Tasks</button>
+                <button class="tab-btn" data-tab="admin-affiliates">Manage Affiliates</button>
+                <button class="tab-btn" data-tab="admin-withdrawals">Withdrawal Requests</button>
+                <button class="tab-btn" data-tab="admin-settings">Settings</button>
+            </nav>
+
+            <main class="main-content">
+                <!-- Admin Dashboard Tab -->
+                <div id="admin-dashboard" class="tab-content active">
+                    <h2>Admin Dashboard</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Users</h3>
+                            <p id="admin-total-users">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Pending Withdrawals</h3>
+                            <p id="admin-pending-withdrawals">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Active Jobs</h3>
+                            <p id="admin-active-jobs">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Task Submissions</h3>
+                            <p id="admin-pending-tasks">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Admin Tabs will be populated by JavaScript -->
+                <div id="admin-users" class="tab-content">
+                    <h2>User Management</h2>
+                    <div id="admin-users-content"></div>
+                </div>
+
+                <div id="admin-jobs" class="tab-content">
+                    <h2>Job Management</h2>
+                    <div id="admin-jobs-content"></div>
+                </div>
+
+                <div id="admin-tasks" class="tab-content">
+                    <h2>Task Management</h2>
+                    <div id="admin-tasks-content"></div>
+                </div>
+
+                <div id="admin-affiliates" class="tab-content">
+                    <h2>Affiliate Management</h2>
+                    <div id="admin-affiliates-content"></div>
+                </div>
+
+                <div id="admin-withdrawals" class="tab-content">
+                    <h2>Withdrawal Requests</h2>
+                    <div id="admin-withdrawals-content"></div>
+                </div>
+
+                <div id="admin-settings" class="tab-content">
+                    <h2>Settings</h2>
+                    <div id="admin-settings-content"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- WhatsApp Notification -->
+    <div id="whatsapp-notification" class="whatsapp-notification hidden">
+        <span>📱</span>
+        <span>Opening WhatsApp...</span>
+    </div>
+
+    <!-- Modals Container -->
+    <div id="modals"></div>
+
+    <script>
+        // Presingo - Complete Earning Web App with WhatsApp Integration
+        // All data stored in localStorage with single key 'presingo_db'
+        // Security Note: This is a frontend-only demo. In production, use proper backend with secure authentication.
+
+        class PresingoApp {
+            constructor() {
+                this.db = this.initializeDB();
+                this.currentUser = null;
+                this.currentPanel = null; // 'user' or 'admin'
+                this.adminWhatsAppNumber = "8767160204"; // Your WhatsApp number
+                this.init();
+            }
+
+            // Initialize database with seed data if empty
+            initializeDB() {
+                let db = localStorage.getItem('presingo_db');
+                
+                if (!db) {
+                    // Seed data for first-time use
+                    db = {
+                        users: [],
+                        jobs: [],
+                        tasks: [],
+                        affiliateProducts: [],
+                        referrals: [],
+                        transactions: [],
+                        achievements: [],
+                        withdrawalRequests: [],
+                        settings: {
+                            affiliateCompanyShare: 70,
+                            affiliateUserShare: 30
+                        }
+                    };
+
+                    // Create default admin user
+                    const adminUser = {
+                        id: this.generateId(),
+                        name: 'Admin User',
+                        email: 'admin@presingo.local',
+                        password: this.hashPassword('admin123'),
+                        role: 'admin',
+                        balance: 0,
+                        joinedDate: new Date().toISOString(),
+                        referralCode: 'ADMIN123'
+                    };
+                    db.users.push(adminUser);
+
+                    // Add sample users
+                    const sampleUsers = [
+                        {
+                            id: this.generateId(),
+                            name: 'John Doe',
+                            email: 'john@example.com',
+                            password: this.hashPassword('password123'),
+                            role: 'user',
+                            balance: 500,
+                            joinedDate: new Date().toISOString(),
+                            referralCode: this.generateReferralCode(),
+                            achievements: []
+                        },
+                        {
+                            id: this.generateId(),
+                            name: 'Jane Smith',
+                            email: 'jane@example.com',
+                            password: this.hashPassword('password123'),
+                            role: 'user',
+                            balance: 300,
+                            joinedDate: new Date().toISOString(),
+                            referralCode: this.generateReferralCode(),
+                            achievements: []
+                        }
+                    ];
+                    db.users.push(...sampleUsers);
+
+                    // Add sample jobs
+                    const sampleJobs = [
+                        {
+                            id: this.generateId(),
+                            title: 'Website Design',
+                            description: 'Create a responsive website for small business',
+                            budget: 5000,
+                            postedBy: adminUser.id,
+                            status: 'open',
+                            assignedTo: null,
+                            applications: []
+                        },
+                        {
+                            id: this.generateId(),
+                            title: 'Social Media Marketing',
+                            description: 'Manage social media accounts for 1 month',
+                            budget: 3000,
+                            postedBy: sampleUsers[0].id,
+                            status: 'open',
+                            assignedTo: null,
+                            applications: []
+                        }
+                    ];
+                    db.jobs.push(...sampleJobs);
+
+                    // Add sample tasks
+                    const sampleTasks = [
+                        {
+                            id: this.generateId(),
+                            title: 'Follow on Instagram',
+                            description: 'Follow our official Instagram account',
+                            reward: 50,
+                            requireProof: false,
+                            createdBy: adminUser.id,
+                            submissions: []
+                        },
+                        {
+                            id: this.generateId(),
+                            title: 'Share on Facebook',
+                            description: 'Share our page on your Facebook timeline',
+                            reward: 100,
+                            requireProof: true,
+                            createdBy: adminUser.id,
+                            submissions: []
+                        }
+                    ];
+                    db.tasks.push(...sampleTasks);
+
+                    // Add sample affiliate products
+                    const sampleAffiliates = [
+                        {
+                            id: this.generateId(),
+                            title: 'Web Hosting Package',
+                            productLink: 'https://example.com/hosting',
+                            price: 2000,
+                            companySharePercent: 70,
+                            userSharePercent: 30
+                        },
+                        {
+                            id: this.generateId(),
+                            title: 'Digital Marketing Course',
+                            productLink: 'https://example.com/course',
+                            price: 5000,
+                            companySharePercent: 60,
+                            userSharePercent: 40
+                        }
+                    ];
+                    db.affiliateProducts.push(...sampleAffiliates);
+
+                    // Add achievements
+                    const sampleAchievements = [
+                        {
+                            id: this.generateId(),
+                            title: 'First Task Completed',
+                            description: 'Complete your first task',
+                            reward: 100,
+                            condition: 'tasks_completed',
+                            threshold: 1
+                        },
+                        {
+                            id: this.generateId(),
+                            title: 'Referral Master',
+                            description: 'Get 5 successful referrals',
+                            reward: 500,
+                            condition: 'referrals_count',
+                            threshold: 5
+                        },
+                        {
+                            id: this.generateId(),
+                            title: 'First Sale',
+                            description: 'Make your first affiliate sale',
+                            reward: 200,
+                            condition: 'affiliate_sales',
+                            threshold: 1
+                        }
+                    ];
+                    db.achievements.push(...sampleAchievements);
+
+                    this.saveDB(db);
+                }
+
+                return JSON.parse(db);
+            }
+
+            // Save database to localStorage
+            saveDB(db = null) {
+                if (db) {
+                    this.db = db;
+                }
+                localStorage.setItem('presingo_db', JSON.stringify(this.db));
+            }
+
+            // Generate unique ID
+            generateId() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            }
+
+            // Generate referral code (6 characters)
+            generateReferralCode() {
+                return Math.random().toString(36).substr(2, 6).toUpperCase();
+            }
+
+            // Basic password hashing (for demo only - use proper hashing in production)
+            hashPassword(password) {
+                // Simple hash for demo - in production, use bcrypt or similar
+                let hash = 0;
+                for (let i = 0; i < password.length; i++) {
+                    const char = password.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return hash.toString();
+            }
+
+            // Check if device is already registered
+            isDeviceRegistered() {
+                return localStorage.getItem('presingo_device_registered') === 'true';
+            }
+
+            // Mark device as registered
+            markDeviceRegistered() {
+                localStorage.setItem('presingo_device_registered', 'true');
+            }
+
+            // Send WhatsApp notification
+            sendWhatsAppNotification(message) {
+                const encodedMessage = encodeURIComponent(message);
+                const whatsappUrl = `https://wa.me/${this.adminWhatsAppNumber}?text=${encodedMessage}`;
+                
+                // Show notification
+                const notification = document.getElementById('whatsapp-notification');
+                notification.classList.remove('hidden');
+                
+                // Open WhatsApp after a short delay
+                setTimeout(() => {
+                    window.open(whatsappUrl, '_blank');
+                    // Hide notification after 3 seconds
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 3000);
+                }, 1000);
+            }
+
+            // Send job application notification
+            sendJobApplicationNotification(job, user) {
+                const message = `🚀 *NEW JOB APPLICATION*\n\n` +
+                               `*Job Title:* ${job.title}\n` +
+                               `*Budget:* ₹${job.budget}\n` +
+                               `*Applicant:* ${user.name}\n` +
+                               `*Email:* ${user.email}\n` +
+                               `*Applied On:* ${new Date().toLocaleString()}\n\n` +
+                               `_Application submitted via Presingo App_`;
+                
+                this.sendWhatsAppNotification(message);
+            }
+
+            // Send task submission notification
+            sendTaskSubmissionNotification(task, user, proof) {
+                const message = `✅ *NEW TASK SUBMISSION*\n\n` +
+                               `*Task:* ${task.title}\n` +
+                               `*Reward:* ₹${task.reward}\n` +
+                               `*User:* ${user.name}\n` +
+                               `*Email:* ${user.email}\n` +
+                               `*Proof Required:* ${task.requireProof ? 'Yes' : 'No'}\n` +
+                               `*Proof Submitted:* ${proof || 'Not required'}\n` +
+                               `*Submitted On:* ${new Date().toLocaleString()}\n\n` +
+                               `_Task submitted via Presingo App_`;
+                
+                this.sendWhatsAppNotification(message);
+            }
+
+            // Send affiliate sale notification
+            sendAffiliateSaleNotification(product, user, commission) {
+                const message = `💰 *NEW AFFILIATE SALE*\n\n` +
+                               `*Product:* ${product.title}\n` +
+                               `*Price:* ₹${product.price}\n` +
+                               `*Commission:* ₹${commission}\n` +
+                               `*Affiliate:* ${user.name}\n` +
+                               `*Email:* ${user.email}\n` +
+                               `*Sale Date:* ${new Date().toLocaleString()}\n\n` +
+                               `_Sale recorded via Presingo App_`;
+                
+                this.sendWhatsAppNotification(message);
+            }
+
+            // Send withdrawal request notification
+            sendWithdrawalNotification(user, amount) {
+                const message = `💸 *NEW WITHDRAWAL REQUEST*\n\n` +
+                               `*User:* ${user.name}\n` +
+                               `*Email:* ${user.email}\n` +
+                               `*Amount:* ₹${amount}\n` +
+                               `*Current Balance:* ₹${user.balance}\n` +
+                               `*Request Date:* ${new Date().toLocaleString()}\n\n` +
+                               `_Withdrawal request via Presingo App_`;
+                
+                this.sendWhatsAppNotification(message);
+            }
+
+            // Initialize the application
+            init() {
+                this.setupEventListeners();
+                this.checkAuthentication();
+            }
+
+            // Setup event listeners
+            setupEventListeners() {
+                // Auth form toggles
+                document.getElementById('show-signup').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showSignupForm();
+                });
+
+                document.getElementById('show-login').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showLoginForm();
+                });
+
+                document.getElementById('show-admin-login').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showAdminLoginForm();
+                });
+
+                document.getElementById('show-user-login').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showLoginForm();
+                });
+
+                // Form submissions
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleUserLogin();
+                });
+
+                document.getElementById('signupForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleUserSignup();
+                });
+
+                document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleAdminLogin();
+                });
+
+                // Logout buttons
+                document.getElementById('user-logout-btn').addEventListener('click', () => {
+                    this.handleLogout();
+                });
+
+                document.getElementById('admin-logout-btn').addEventListener('click', () => {
+                    this.handleLogout();
+                });
+
+                // Tab navigation for user panel
+                document.querySelectorAll('#user-screen .tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.switchTab(e.target.dataset.tab, 'user');
+                    });
+                });
+
+                // Tab navigation for admin panel
+                document.querySelectorAll('#admin-screen .tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.switchTab(e.target.dataset.tab, 'admin');
+                    });
+                });
+
+                // User action buttons
+                document.getElementById('user-add-job-btn').addEventListener('click', () => {
+                    this.showAddJobModal();
+                });
+
+                document.getElementById('user-withdraw-btn').addEventListener('click', () => {
+                    this.requestWithdrawal();
+                });
+            }
+
+            // Show signup form
+            showSignupForm() {
+                if (this.isDeviceRegistered()) {
+                    this.showMessage('Only one account allowed per device/browser', 'error');
+                    return;
+                }
+
+                document.getElementById('login-form').classList.remove('active');
+                document.getElementById('admin-login-form').classList.remove('active');
+                document.getElementById('signup-form').classList.add('active');
+            }
+
+            // Show login form
+            showLoginForm() {
+                document.getElementById('signup-form').classList.remove('active');
+                document.getElementById('admin-login-form').classList.remove('active');
+                document.getElementById('login-form').classList.add('active');
+            }
+
+            // Show admin login form
+            showAdminLoginForm() {
+                document.getElementById('login-form').classList.remove('active');
+                document.getElementById('signup-form').classList.remove('active');
+                document.getElementById('admin-login-form').classList.add('active');
+            }
+
+            // Handle user login
+            handleUserLogin() {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                const user = this.db.users.find(u => u.email === email && u.role === 'user');
+                
+                if (user && user.password === this.hashPassword(password)) {
+                    this.currentUser = user;
+                    this.currentPanel = 'user';
+                    localStorage.setItem('presingo_current_user', user.id);
+                    localStorage.setItem('presingo_current_panel', 'user');
+                    this.showUserPanel();
+                    this.loadUserDashboard();
+                } else {
+                    this.showMessage('Invalid email or password', 'error');
+                }
+            }
+
+            // Handle admin login
+            handleAdminLogin() {
+                const email = document.getElementById('adminLoginEmail').value;
+                const password = document.getElementById('adminLoginPassword').value;
+
+                const admin = this.db.users.find(u => u.email === email && u.role === 'admin');
+                
+                if (admin && admin.password === this.hashPassword(password)) {
+                    this.currentUser = admin;
+                    this.currentPanel = 'admin';
+                    localStorage.setItem('presingo_current_user', admin.id);
+                    localStorage.setItem('presingo_current_panel', 'admin');
+                    this.showAdminPanel();
+                    this.loadAdminDashboard();
+                } else {
+                    this.showMessage('Invalid admin credentials', 'error');
+                }
+            }
+
+            // Handle user signup
+            handleUserSignup() {
+                if (this.isDeviceRegistered()) {
+                    this.showMessage('Only one account allowed per device/browser', 'error');
+                    return;
+                }
+
+                const name = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+                const password = document.getElementById('signupPassword').value;
+                const referralCode = document.getElementById('referralCode').value;
+
+                // Check if email already exists
+                if (this.db.users.find(u => u.email === email)) {
+                    this.showMessage('Email already registered', 'error');
+                    return;
+                }
+
+                // Create new user
+                const newUser = {
+                    id: this.generateId(),
+                    name,
+                    email,
+                    password: this.hashPassword(password),
+                    role: 'user',
+                    balance: 0,
+                    joinedDate: new Date().toISOString(),
+                    referralCode: this.generateReferralCode(),
+                    achievements: []
+                };
+
+                this.db.users.push(newUser);
+                this.saveDB();
+
+                // Handle referral if code provided
+                if (referralCode) {
+                    this.processReferral(referralCode, newUser.id);
+                }
+
+                // Mark device as registered
+                this.markDeviceRegistered();
+
+                this.showMessage('Account created successfully! Please login.', 'success');
+                this.showLoginForm();
+            }
+
+            // Process referral signup
+            processReferral(referralCode, newUserId) {
+                const referrer = this.db.users.find(u => u.referralCode === referralCode);
+                if (referrer) {
+                    // Add referral record
+                    this.db.referrals.push({
+                        id: this.generateId(),
+                        referrerId: referrer.id,
+                        referredUserId: newUserId,
+                        amount: 90,
+                        date: new Date().toISOString()
+                    });
+
+                    // Add transaction for referrer
+                    this.addTransaction(referrer.id, 90, 'referral', `Referral bonus for ${this.getUserById(newUserId).name}`);
+
+                    // Update referrer balance
+                    referrer.balance += 90;
+
+                    this.saveDB();
+                }
+            }
+
+            // Handle logout
+            handleLogout() {
+                this.currentUser = null;
+                this.currentPanel = null;
+                localStorage.removeItem('presingo_current_user');
+                localStorage.removeItem('presingo_current_panel');
+                this.showAuthScreen();
+            }
+
+            // Check if user is authenticated
+            checkAuthentication() {
+                const userId = localStorage.getItem('presingo_current_user');
+                const panel = localStorage.getItem('presingo_current_panel');
+                
+                if (userId && panel) {
+                    const user = this.db.users.find(u => u.id === userId);
+                    if (user) {
+                        this.currentUser = user;
+                        this.currentPanel = panel;
+                        
+                        if (panel === 'user') {
+                            this.showUserPanel();
+                            this.loadUserDashboard();
+                        } else if (panel === 'admin') {
+                            this.showAdminPanel();
+                            this.loadAdminDashboard();
+                        }
+                        return;
+                    }
+                }
+                this.showAuthScreen();
+            }
+
+            // Show authentication screen
+            showAuthScreen() {
+                document.getElementById('auth-screen').classList.add('active');
+                document.getElementById('user-screen').classList.remove('active');
+                document.getElementById('admin-screen').classList.remove('active');
+                
+                // Check if device already registered
+                if (this.isDeviceRegistered()) {
+                    this.showLoginForm();
+                }
+            }
+
+            // Show user panel
+            showUserPanel() {
+                document.getElementById('auth-screen').classList.remove('active');
+                document.getElementById('admin-screen').classList.remove('active');
+                document.getElementById('user-screen').classList.add('active');
+            }
+
+            // Show admin panel
+            showAdminPanel() {
+                document.getElementById('auth-screen').classList.remove('active');
+                document.getElementById('user-screen').classList.remove('active');
+                document.getElementById('admin-screen').classList.add('active');
+            }
+
+            // Switch between tabs
+            switchTab(tabName, panel) {
+                // Update active tab button
+                const tabButtons = document.querySelectorAll(`#${panel}-screen .tab-btn`);
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`#${panel}-screen [data-tab="${tabName}"]`).classList.add('active');
+
+                // Update active tab content
+                const tabContents = document.querySelectorAll(`#${panel}-screen .tab-content`);
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(tabName).classList.add('active');
+
+                // Load tab content
+                this.loadTabContent(tabName, panel);
+            }
+
+            // Load content for specific tab
+            loadTabContent(tabName, panel) {
+                if (panel === 'user') {
+                    switch (tabName) {
+                        case 'user-dashboard':
+                            this.loadUserDashboard();
+                            break;
+                        case 'user-freelance':
+                            this.loadUserFreelanceJobs();
+                            break;
+                        case 'user-affiliate':
+                            this.loadUserAffiliateProducts();
+                            break;
+                        case 'user-tasks':
+                            this.loadUserTasks();
+                            break;
+                        case 'user-refer':
+                            this.loadUserReferralInfo();
+                            break;
+                        case 'user-achievements':
+                            this.loadUserAchievements();
+                            break;
+                        case 'user-wallet':
+                            this.loadUserWallet();
+                            break;
+                        case 'user-profile':
+                            this.loadUserProfile();
+                            break;
+                    }
+                } else if (panel === 'admin') {
+                    switch (tabName) {
+                        case 'admin-dashboard':
+                            this.loadAdminDashboard();
+                            break;
+                        case 'admin-users':
+                            this.showUserManagement();
+                            break;
+                        case 'admin-jobs':
+                            this.showJobManagement();
+                            break;
+                        case 'admin-tasks':
+                            this.showTaskManagement();
+                            break;
+                        case 'admin-affiliates':
+                            this.showAffiliateManagement();
+                            break;
+                        case 'admin-withdrawals':
+                            this.showWithdrawalManagement();
+                            break;
+                        case 'admin-settings':
+                            this.showSettings();
+                            break;
+                    }
+                }
+            }
+
+            // Load user dashboard data
+            loadUserDashboard() {
+                this.updateUserBalanceDisplay();
+
+                // Calculate stats
+                const pendingTasks = this.db.tasks.filter(task => {
+                    const submission = task.submissions.find(s => s.userId === this.currentUser.id && s.status === 'pending');
+                    return submission;
+                }).length;
+
+                const referralEarnings = this.db.transactions
+                    .filter(t => t.userId === this.currentUser.id && t.type === 'referral')
+                    .reduce((sum, t) => sum + t.amount, 0);
+
+                const totalEarnings = this.db.transactions
+                    .filter(t => t.userId === this.currentUser.id && t.amount > 0)
+                    .reduce((sum, t) => sum + t.amount, 0);
+
+                document.getElementById('user-dashboard-balance').textContent = `₹${this.currentUser.balance}`;
+                document.getElementById('user-pending-tasks').textContent = pendingTasks;
+                document.getElementById('user-referral-earnings').textContent = `₹${referralEarnings}`;
+                document.getElementById('user-total-earnings').textContent = `₹${totalEarnings}`;
+            }
+
+            // Load user freelance jobs
+            loadUserFreelanceJobs() {
+                const container = document.getElementById('user-jobs-list');
+                container.innerHTML = '';
+
+                this.db.jobs.forEach(job => {
+                    const jobElement = document.createElement('div');
+                    jobElement.className = 'card job-card';
+                    jobElement.innerHTML = `
+                        <h3>${job.title}</h3>
+                        <p>${job.description}</p>
+                        <p><strong>Budget:</strong> ₹${job.budget}</p>
+                        <p><strong>Status:</strong> ${job.status}</p>
+                        <p><strong>Posted by:</strong> ${this.getUserById(job.postedBy).name}</p>
+                        ${job.assignedTo ? `<p><strong>Assigned to:</strong> ${this.getUserById(job.assignedTo).name}</p>` : ''}
+                        ${this.currentUser.id === job.postedBy ? 
+                            `<button onclick="app.manageJob('${job.id}')" class="btn-secondary">Manage</button>` : 
+                            job.status === 'open' ? 
+                            `<button onclick="app.applyForJob('${job.id}')" class="btn-primary">Apply</button>` : ''}
+                    `;
+                    container.appendChild(jobElement);
+                });
+            }
+
+            // Load user affiliate products
+            loadUserAffiliateProducts() {
+                const container = document.getElementById('user-affiliate-products');
+                container.innerHTML = '';
+
+                this.db.affiliateProducts.forEach(product => {
+                    const productElement = document.createElement('div');
+                    productElement.className = 'card affiliate-card';
+                    productElement.innerHTML = `
+                        <h3>${product.title}</h3>
+                        <p><strong>Price:</strong> ₹${product.price}</p>
+                        <p><strong>Your Commission:</strong> ₹${(product.price * product.userSharePercent / 100).toFixed(2)}</p>
+                        <a href="${product.productLink}" target="_blank" class="btn-primary">View Product</a>
+                        <button onclick="app.markAsSold('${product.id}')" class="btn-success">Mark as Sold</button>
+                    `;
+                    container.appendChild(productElement);
+                });
+            }
+
+            // Load user tasks
+            loadUserTasks() {
+                const container = document.getElementById('user-tasks-list');
+                container.innerHTML = '';
+
+                this.db.tasks.forEach(task => {
+                    const userSubmission = task.submissions.find(s => s.userId === this.currentUser.id);
+                    const taskElement = document.createElement('div');
+                    taskElement.className = 'card task-card';
+                    taskElement.innerHTML = `
+                        <h3>${task.title}</h3>
+                        <p>${task.description}</p>
+                        <p><strong>Reward:</strong> ₹${task.reward}</p>
+                        <p><strong>Proof Required:</strong> ${task.requireProof ? 'Yes' : 'No'}</p>
+                        ${userSubmission ? 
+                            `<p><strong>Status:</strong> ${userSubmission.status}</p>` :
+                            `<button onclick="app.completeTask('${task.id}')" class="btn-primary">Complete Task</button>`
+                        }
+                    `;
+                    container.appendChild(taskElement);
+                });
+            }
+
+            // Load user referral information
+            loadUserReferralInfo() {
+                document.getElementById('user-referral-code').textContent = this.currentUser.referralCode;
+                
+                const userReferrals = this.db.referrals.filter(ref => ref.referrerId === this.currentUser.id);
+                const referralEarnings = userReferrals.reduce((sum, ref) => sum + ref.amount, 0);
+
+                document.getElementById('user-total-referrals').textContent = userReferrals.length;
+                document.getElementById('user-referral-total').textContent = `₹${referralEarnings}`;
+            }
+
+            // Load user achievements
+            loadUserAchievements() {
+                const container = document.getElementById('user-achievements-list');
+                container.innerHTML = '';
+
+                this.db.achievements.forEach(achievement => {
+                    const userAchievements = this.currentUser.achievements || [];
+                    const isUnlocked = userAchievements.includes(achievement.id);
+                    
+                    const achievementElement = document.createElement('div');
+                    achievementElement.className = `card achievement ${isUnlocked ? '' : 'locked'}`;
+                    achievementElement.innerHTML = `
+                        <h3>${achievement.title}</h3>
+                        <p>${achievement.description}</p>
+                        <p class="achievement-reward">Reward: ₹${achievement.reward}</p>
+                        ${isUnlocked ? 
+                            '<span class="text-success">✓ Unlocked</span>' : 
+                            '<span class="text-muted">Locked</span>'
+                        }
+                    `;
+                    container.appendChild(achievementElement);
+                });
+            }
+
+            // Load user wallet information
+            loadUserWallet() {
+                this.updateUserBalanceDisplay();
+                
+                const container = document.getElementById('user-transactions-list');
+                container.innerHTML = '';
+
+                const userTransactions = this.db.transactions
+                    .filter(t => t.userId === this.currentUser.id)
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                if (userTransactions.length === 0) {
+                    container.innerHTML = '<p>No transactions yet.</p>';
+                    return;
+                }
+
+                userTransactions.forEach(transaction => {
+                    const transactionElement = document.createElement('div');
+                    transactionElement.className = 'card';
+                    transactionElement.innerHTML = `
+                        <p><strong>${transaction.note}</strong></p>
+                        <p>Amount: <span class="${transaction.amount > 0 ? 'text-success' : 'text-danger'}">₹${transaction.amount}</span></p>
+                        <p>Date: ${new Date(transaction.date).toLocaleDateString()}</p>
+                        <p>Type: ${transaction.type}</p>
+                    `;
+                    container.appendChild(transactionElement);
+                });
+            }
+
+            // Load user profile information
+            loadUserProfile() {
+                document.getElementById('user-profile-name').textContent = this.currentUser.name;
+                document.getElementById('user-profile-email').textContent = this.currentUser.email;
+                document.getElementById('user-profile-role').textContent = this.currentUser.role;
+                document.getElementById('user-profile-joined').textContent = new Date(this.currentUser.joinedDate).toLocaleDateString();
+                document.getElementById('user-profile-referral-code').textContent = this.currentUser.referralCode;
+            }
+
+            // Load admin dashboard
+            loadAdminDashboard() {
+                const totalUsers = this.db.users.filter(u => u.role === 'user').length;
+                const pendingWithdrawals = this.db.withdrawalRequests.filter(w => w.status === 'pending').length;
+                const activeJobs = this.db.jobs.filter(j => j.status === 'open').length;
+                const pendingTasks = this.db.tasks.reduce((count, task) => {
+                    return count + task.submissions.filter(s => s.status === 'pending').length;
+                }, 0);
+
+                document.getElementById('admin-total-users').textContent = totalUsers;
+                document.getElementById('admin-pending-withdrawals').textContent = pendingWithdrawals;
+                document.getElementById('admin-active-jobs').textContent = activeJobs;
+                document.getElementById('admin-pending-tasks').textContent = pendingTasks;
+            }
+
+            // Show user management in admin panel
+            showUserManagement() {
+                const container = document.getElementById('admin-users-content');
+                let html = '<table class="admin-table"><tr><th>Name</th><th>Email</th><th>Balance</th><th>Joined</th><th>Actions</th></tr>';
+                
+                this.db.users.filter(user => user.role === 'user').forEach(user => {
+                    html += `
+                        <tr>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td>₹${user.balance}</td>
+                            <td>${new Date(user.joinedDate).toLocaleDateString()}</td>
+                            <td>
+                                <button onclick="app.editUserBalance('${user.id}')" class="btn-secondary">Edit Balance</button>
+                                <button onclick="app.deleteUser('${user.id}')" class="btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</table>';
+                container.innerHTML = html;
+            }
+
+            // Show job management in admin panel
+            showJobManagement() {
+                const container = document.getElementById('admin-jobs-content');
+                let html = `
+                    <button onclick="app.showAddJobModalAdmin()" class="btn-primary mb-2">Add New Job</button>
+                    <table class="admin-table">
+                        <tr>
+                            <th>Title</th>
+                            <th>Budget</th>
+                            <th>Status</th>
+                            <th>Posted By</th>
+                            <th>Applications</th>
+                            <th>Actions</th>
+                        </tr>
+                `;
+                
+                this.db.jobs.forEach(job => {
+                    const applicationsCount = job.applications.length;
+                    html += `
+                        <tr>
+                            <td>${job.title}</td>
+                            <td>₹${job.budget}</td>
+                            <td>${job.status}</td>
+                            <td>${this.getUserById(job.postedBy).name}</td>
+                            <td>${applicationsCount}</td>
+                            <td>
+                                <button onclick="app.manageJobAdmin('${job.id}')" class="btn-secondary">Manage</button>
+                                <button onclick="app.deleteJob('${job.id}')" class="btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</table>';
+                container.innerHTML = html;
+            }
+
+            // Show task management in admin panel
+            showTaskManagement() {
+                const container = document.getElementById('admin-tasks-content');
+                let html = `
+                    <button onclick="app.showAddTaskModal()" class="btn-primary mb-2">Add New Task</button>
+                    <table class="admin-table">
+                        <tr>
+                            <th>Title</th>
+                            <th>Reward</th>
+                            <th>Proof Required</th>
+                            <th>Submissions</th>
+                            <th>Actions</th>
+                        </tr>
+                `;
+                
+                this.db.tasks.forEach(task => {
+                    const pendingSubmissions = task.submissions.filter(s => s.status === 'pending').length;
+                    const totalSubmissions = task.submissions.length;
+                    html += `
+                        <tr>
+                            <td>${task.title}</td>
+                            <td>₹${task.reward}</td>
+                            <td>${task.requireProof ? 'Yes' : 'No'}</td>
+                            <td>${pendingSubmissions} pending / ${totalSubmissions} total</td>
+                            <td>
+                                <button onclick="app.manageTaskAdmin('${task.id}')" class="btn-secondary">Manage</button>
+                                <button onclick="app.deleteTask('${task.id}')" class="btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</table>';
+                container.innerHTML = html;
+            }
+
+            // Show affiliate management in admin panel
+            showAffiliateManagement() {
+                const container = document.getElementById('admin-affiliates-content');
+                let html = `
+                    <button onclick="app.showAddAffiliateModal()" class="btn-primary mb-2">Add New Product</button>
+                    <table class="admin-table">
+                        <tr>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>User Commission</th>
+                            <th>Actions</th>
+                        </tr>
+                `;
+                
+                this.db.affiliateProducts.forEach(product => {
+                    html += `
+                        <tr>
+                            <td>${product.title}</td>
+                            <td>₹${product.price}</td>
+                            <td>${product.userSharePercent}% (₹${(product.price * product.userSharePercent / 100).toFixed(2)})</td>
+                            <td>
+                                <button onclick="app.editAffiliate('${product.id}')" class="btn-secondary">Edit</button>
+                                <button onclick="app.deleteAffiliate('${product.id}')" class="btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</table>';
+                container.innerHTML = html;
+            }
+
+            // Show withdrawal management in admin panel
+            showWithdrawalManagement() {
+                const container = document.getElementById('admin-withdrawals-content');
+                let html = '<table class="admin-table"><tr><th>User</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr>';
+                
+                this.db.withdrawalRequests.forEach(request => {
+                    html += `
+                        <tr>
+                            <td>${this.getUserById(request.userId).name}</td>
+                            <td>₹${request.amount}</td>
+                            <td>${new Date(request.date).toLocaleDateString()}</td>
+                            <td>${request.status}</td>
+                            <td>
+                                ${request.status === 'pending' ? `
+                                    <button onclick="app.approveWithdrawal('${request.id}')" class="btn-success">Approve</button>
+                                    <button onclick="app.rejectWithdrawal('${request.id}')" class="btn-danger">Reject</button>
+                                ` : ''}
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</table>';
+                container.innerHTML = html;
+            }
+
+            // Show settings in admin panel
+            showSettings() {
+                const container = document.getElementById('admin-settings-content');
+                container.innerHTML = `
+                    <div class="card">
+                        <h3>Application Settings</h3>
+                        <div class="form-group">
+                            <label>Affiliate Company Share (%)</label>
+                            <input type="number" id="companyShare" value="${this.db.settings.affiliateCompanyShare}" min="0" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Affiliate User Share (%)</label>
+                            <input type="number" id="userShare" value="${this.db.settings.affiliateUserShare}" min="0" max="100">
+                        </div>
+                        <button onclick="app.updateSettings()" class="btn-primary">Update Settings</button>
+                    </div>
+                    <div class="card mt-3">
+                        <h3>Data Management</h3>
+                        <button onclick="app.exportData()" class="btn-secondary">Export Data</button>
+                        <button onclick="app.resetData()" class="btn-danger">Reset All Data</button>
+                    </div>
+                `;
+            }
+
+            // Update settings
+            updateSettings() {
+                const companyShare = parseInt(document.getElementById('companyShare').value);
+                const userShare = parseInt(document.getElementById('userShare').value);
+                
+                if (companyShare + userShare !== 100) {
+                    this.showMessage('Company and user shares must total 100%', 'error');
+                    return;
+                }
+                
+                this.db.settings.affiliateCompanyShare = companyShare;
+                this.db.settings.affiliateUserShare = userShare;
+                this.saveDB();
+                this.showMessage('Settings updated successfully', 'success');
+            }
+
+            // Show add job modal for admin
+            showAddJobModalAdmin() {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Add New Job (Admin)</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <form id="addJobFormAdmin">
+                            <div class="form-group">
+                                <label>Job Title</label>
+                                <input type="text" id="adminJobTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea id="adminJobDescription" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Budget (₹)</label>
+                                <input type="number" id="adminJobBudget" required min="1">
+                            </div>
+                            <button type="submit" class="btn-primary">Add Job</button>
+                        </form>
+                    </div>
+                `;
+                
+                document.getElementById('modals').appendChild(modal);
+                
+                // Close modal
+                modal.querySelector('.modal-close').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                // Form submission
+                document.getElementById('addJobFormAdmin').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addJobAsAdmin();
+                    modal.remove();
+                });
+            }
+
+            // Add job as admin
+            addJobAsAdmin() {
+                const title = document.getElementById('adminJobTitle').value;
+                const description = document.getElementById('adminJobDescription').value;
+                const budget = parseInt(document.getElementById('adminJobBudget').value);
+                
+                const newJob = {
+                    id: this.generateId(),
+                    title,
+                    description,
+                    budget,
+                    postedBy: this.currentUser.id,
+                    status: 'open',
+                    assignedTo: null,
+                    applications: []
+                };
+                
+                this.db.jobs.push(newJob);
+                this.saveDB();
+                this.showJobManagement();
+                this.showMessage('Job added successfully', 'success');
+            }
+
+            // Show add task modal
+            showAddTaskModal() {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Add New Task</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <form id="addTaskForm">
+                            <div class="form-group">
+                                <label>Task Title</label>
+                                <input type="text" id="taskTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea id="taskDescription" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Reward (₹)</label>
+                                <input type="number" id="taskReward" required min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="taskRequireProof"> Proof Required
+                                </label>
+                            </div>
+                            <button type="submit" class="btn-primary">Add Task</button>
+                        </form>
+                    </div>
+                `;
+                
+                document.getElementById('modals').appendChild(modal);
+                
+                // Close modal
+                modal.querySelector('.modal-close').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                // Form submission
+                document.getElementById('addTaskForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addTask();
+                    modal.remove();
+                });
+            }
+
+            // Add new task
+            addTask() {
+                const title = document.getElementById('taskTitle').value;
+                const description = document.getElementById('taskDescription').value;
+                const reward = parseInt(document.getElementById('taskReward').value);
+                const requireProof = document.getElementById('taskRequireProof').checked;
+                
+                const newTask = {
+                    id: this.generateId(),
+                    title,
+                    description,
+                    reward,
+                    requireProof,
+                    createdBy: this.currentUser.id,
+                    submissions: []
+                };
+                
+                this.db.tasks.push(newTask);
+                this.saveDB();
+                this.showTaskManagement();
+                this.showMessage('Task added successfully', 'success');
+            }
+
+            // Show add affiliate modal
+            showAddAffiliateModal() {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Add New Affiliate Product</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <form id="addAffiliateForm">
+                            <div class="form-group">
+                                <label>Product Title</label>
+                                <input type="text" id="affiliateTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Product Link</label>
+                                <input type="url" id="affiliateLink" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Price (₹)</label>
+                                <input type="number" id="affiliatePrice" required min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>User Commission (%)</label>
+                                <input type="number" id="affiliateUserShare" value="30" required min="1" max="100">
+                            </div>
+                            <button type="submit" class="btn-primary">Add Product</button>
+                        </form>
+                    </div>
+                `;
+                
+                document.getElementById('modals').appendChild(modal);
+                
+                // Close modal
+                modal.querySelector('.modal-close').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                // Form submission
+                document.getElementById('addAffiliateForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addAffiliateProduct();
+                    modal.remove();
+                });
+            }
+
+            // Add new affiliate product
+            addAffiliateProduct() {
+                const title = document.getElementById('affiliateTitle').value;
+                const productLink = document.getElementById('affiliateLink').value;
+                const price = parseInt(document.getElementById('affiliatePrice').value);
+                const userSharePercent = parseInt(document.getElementById('affiliateUserShare').value);
+                const companySharePercent = 100 - userSharePercent;
+                
+                const newProduct = {
+                    id: this.generateId(),
+                    title,
+                    productLink,
+                    price,
+                    companySharePercent,
+                    userSharePercent
+                };
+                
+                this.db.affiliateProducts.push(newProduct);
+                this.saveDB();
+                this.showAffiliateManagement();
+                this.showMessage('Affiliate product added successfully', 'success');
+            }
+
+            // Apply for job with WhatsApp notification
+            applyForJob(jobId) {
+                const job = this.db.jobs.find(j => j.id === jobId);
+                if (job) {
+                    // Check if already applied
+                    const existingApplication = job.applications.find(app => app.userId === this.currentUser.id);
+                    if (existingApplication) {
+                        this.showMessage('You have already applied for this job', 'error');
+                        return;
+                    }
+
+                    job.applications.push({
+                        userId: this.currentUser.id,
+                        date: new Date().toISOString(),
+                        status: 'pending'
+                    });
+                    this.saveDB();
+                    
+                    // Send WhatsApp notification
+                    this.sendJobApplicationNotification(job, this.currentUser);
+                    
+                    this.loadUserFreelanceJobs();
+                    this.showMessage('Application submitted successfully! Notification sent to admin.', 'success');
+                }
+            }
+
+            // Complete task with WhatsApp notification
+            completeTask(taskId) {
+                const task = this.db.tasks.find(t => t.id === taskId);
+                if (task) {
+                    // Check if already submitted
+                    const existingSubmission = task.submissions.find(sub => sub.userId === this.currentUser.id);
+                    if (existingSubmission) {
+                        this.showMessage('You have already submitted this task', 'error');
+                        return;
+                    }
+
+                    let proof = '';
+                    if (task.requireProof) {
+                        proof = prompt('Please provide proof (URL or description):');
+                        if (!proof) {
+                            this.showMessage('Proof is required for this task', 'error');
+                            return;
+                        }
+                    }
+
+                    const submission = {
+                        userId: this.currentUser.id,
+                        date: new Date().toISOString(),
+                        status: 'pending',
+                        proof: proof || 'No proof required'
+                    };
+                    
+                    task.submissions.push(submission);
+                    this.saveDB();
+                    
+                    // Send WhatsApp notification
+                    this.sendTaskSubmissionNotification(task, this.currentUser, proof);
+                    
+                    this.loadUserTasks();
+                    this.showMessage('Task submitted for approval! Notification sent to admin.', 'success');
+                }
+            }
+
+            // Mark affiliate product as sold with WhatsApp notification
+            markAsSold(productId) {
+                const product = this.db.affiliateProducts.find(p => p.id === productId);
+                if (product) {
+                    const commission = product.price * product.userSharePercent / 100;
+                    
+                    // Add transaction
+                    this.addTransaction(this.currentUser.id, commission, 'affiliate', `Commission for ${product.title}`);
+                    
+                    // Update user balance
+                    this.currentUser.balance += commission;
+                    
+                    this.saveDB();
+                    
+                    // Send WhatsApp notification
+                    this.sendAffiliateSaleNotification(product, this.currentUser, commission);
+                    
+                    this.updateUserBalanceDisplay();
+                    this.showMessage(`Commission of ₹${commission} credited! Notification sent to admin.`, 'success');
+                }
+            }
+
+            // Request withdrawal with WhatsApp notification
+            requestWithdrawal() {
+                if (this.currentUser.balance < 100) {
+                    this.showMessage('Minimum withdrawal amount is ₹100', 'error');
+                    return;
+                }
+                
+                const withdrawalRequest = {
+                    id: this.generateId(),
+                    userId: this.currentUser.id,
+                    amount: this.currentUser.balance,
+                    date: new Date().toISOString(),
+                    status: 'pending'
+                };
+                
+                this.db.withdrawalRequests.push(withdrawalRequest);
+                this.saveDB();
+                
+                // Send WhatsApp notification
+                this.sendWithdrawalNotification(this.currentUser, this.currentUser.balance);
+                
+                this.showMessage('Withdrawal request submitted! Notification sent to admin.', 'success');
+            }
+
+            // Manage job applications (admin)
+            manageJobAdmin(jobId) {
+                const job = this.db.jobs.find(j => j.id === jobId);
+                if (!job) return;
+
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Manage Job: ${job.title}</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <h4>Applications (${job.applications.length})</h4>
+                        <div id="jobApplications">
+                            ${job.applications.map(app => `
+                                <div class="submission-item">
+                                    <p><strong>User:</strong> ${this.getUserById(app.userId).name}</p>
+                                    <p><strong>Date:</strong> ${new Date(app.date).toLocaleDateString()}</p>
+                                    <p><strong>Status:</strong> ${app.status}</p>
+                                    <div class="submission-actions">
+                                        ${app.status === 'pending' ? `
+                                            <button onclick="app.approveJobApplication('${jobId}', '${app.userId}')" class="btn-success">Approve</button>
+                                            <button onclick="app.rejectJobApplication('${jobId}', '${app.userId}')" class="btn-danger">Reject</button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('modals').appendChild(modal);
+                
+                // Close modal
+                modal.querySelector('.modal-close').addEventListener('click', () => {
+                    modal.remove();
+                });
+            }
+
+            // Manage task submissions (admin)
+            manageTaskAdmin(taskId) {
+                const task = this.db.tasks.find(t => t.id === taskId);
+                if (!task) return;
+
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Manage Task: ${task.title}</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <h4>Submissions (${task.submissions.length})</h4>
+                        <div id="taskSubmissions">
+                            ${task.submissions.map(sub => `
+                                <div class="submission-item">
+                                    <p><strong>User:</strong> ${this.getUserById(sub.userId).name}</p>
+                                    <p><strong>Date:</strong> ${new Date(sub.date).toLocaleDateString()}</p>
+                                    <p><strong>Proof:</strong> ${sub.proof}</p>
+                                    <p><strong>Status:</strong> ${sub.status}</p>
+                                    <div class="submission-actions">
+                                        ${sub.status === 'pending' ? `
+                                            <button onclick="app.approveTaskSubmission('${taskId}', '${sub.userId}')" class="btn-success">Approve</button>
+                                            <button onclick="app.rejectTaskSubmission('${taskId}', '${sub.userId}')" class="btn-danger">Reject</button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('modals').appendChild(modal);
+                
+                // Close modal
+                modal.querySelector('.modal-close').addEventListener('click', () => {
+                    modal.remove();
+                });
+            }
+
+            // Approve task submission
+            approveTaskSubmission(taskId, userId) {
+                const task = this.db.tasks.find(t => t.id === taskId);
+                const submission = task.submissions.find(s => s.userId === userId);
+                const user = this.db.users.find(u => u.id === userId);
+
+                if (submission && user) {
+                    submission.status = 'approved';
+                    
+                    // Add transaction
+                    this.addTransaction(userId, task.reward, 'task', `Task completed: ${task.title}`);
+                    
+                    // Update user balance
+                    user.balance += task.reward;
+                    
+                    this.saveDB();
+                    this.showMessage('Task submission approved and reward paid', 'success');
+                    this.closeModals();
+                }
+            }
+
+            // Reject task submission
+            rejectTaskSubmission(taskId, userId) {
+                const task = this.db.tasks.find(t => t.id === taskId);
+                const submission = task.submissions.find(s => s.userId === userId);
+
+                if (submission) {
+                    submission.status = 'rejected';
+                    this.saveDB();
+                    this.showMessage('Task submission rejected', 'success');
+                    this.closeModals();
+                }
+            }
+
+            // Approve job application
+            approveJobApplication(jobId, userId) {
+                const job = this.db.jobs.find(j => j.id === jobId);
+                const application = job.applications.find(a => a.userId === userId);
+
+                if (application) {
+                    application.status = 'approved';
+                    job.assignedTo = userId;
+                    job.status = 'in-progress';
+                    this.saveDB();
+                    this.showMessage('Job application approved', 'success');
+                    this.closeModals();
+                }
+            }
+
+            // Reject job application
+            rejectJobApplication(jobId, userId) {
+                const job = this.db.jobs.find(j => j.id === jobId);
+                const application = job.applications.find(a => a.userId === userId);
+
+                if (application) {
+                    application.status = 'rejected';
+                    this.saveDB();
+                    this.showMessage('Job application rejected', 'success');
+                    this.closeModals();
+                }
+            }
+
+            // Approve withdrawal
+            approveWithdrawal(requestId) {
+                const request = this.db.withdrawalRequests.find(r => r.id === requestId);
+                const user = this.db.users.find(u => u.id === request.userId);
+
+                if (request && user) {
+                    request.status = 'approved';
+                    
+                    // Add transaction
+                    this.addTransaction(user.id, -request.amount, 'withdrawal', 'Withdrawal processed');
+                    
+                    // Update user balance
+                    user.balance -= request.amount;
+                    
+                    this.saveDB();
+                    this.showWithdrawalManagement();
+                    this.showMessage('Withdrawal approved', 'success');
+                }
+            }
+
+            // Reject withdrawal
+            rejectWithdrawal(requestId) {
+                const request = this.db.withdrawalRequests.find(r => r.id === requestId);
+
+                if (request) {
+                    request.status = 'rejected';
+                    this.saveDB();
+                    this.showWithdrawalManagement();
+                    this.showMessage('Withdrawal rejected', 'success');
+                }
+            }
+
+            // Edit user balance
+            editUserBalance(userId) {
+                const user = this.db.users.find(u => u.id === userId);
+                const newBalance = prompt(`Enter new balance for ${user.name}:`, user.balance);
+                
+                if (newBalance !== null) {
+                    const balance = parseFloat(newBalance);
+                    if (!isNaN(balance)) {
+                        user.balance = balance;
+                        this.saveDB();
+                        this.showUserManagement();
+                        this.showMessage('User balance updated', 'success');
+                    }
+                }
+            }
+
+            // Delete user
+            deleteUser(userId) {
+                if (confirm('Are you sure you want to delete this user?')) {
+                    this.db.users = this.db.users.filter(u => u.id !== userId);
+                    this.saveDB();
+                    this.showUserManagement();
+                    this.showMessage('User deleted', 'success');
+                }
+            }
+
+            // Delete job
+            deleteJob(jobId) {
+                if (confirm('Are you sure you want to delete this job?')) {
+                    this.db.jobs = this.db.jobs.filter(j => j.id !== jobId);
+                    this.saveDB();
+                    this.showJobManagement();
+                    this.showMessage('Job deleted', 'success');
+                }
+            }
+
+            // Delete task
+            deleteTask(taskId) {
+                if (confirm('Are you sure you want to delete this task?')) {
+                    this.db.tasks = this.db.tasks.filter(t => t.id !== taskId);
+                    this.saveDB();
+                    this.showTaskManagement();
+                    this.showMessage('Task deleted', 'success');
+                }
+            }
+
+            // Delete affiliate product
+            deleteAffiliate(productId) {
+                if (confirm('Are you sure you want to delete this affiliate product?')) {
+                    this.db.affiliateProducts = this.db.affiliateProducts.filter(p => p.id !== productId);
+                    this.saveDB();
+                    this.showAffiliateManagement();
+                    this.showMessage('Affiliate product deleted', 'success');
+                }
+            }
+
+            // Close all modals
+            closeModals() {
+                document.querySelectorAll('.modal').forEach(modal => modal.remove());
+            }
+
+            // Show add job modal for users
+            showAddJobModal() {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Post New Job</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <form id="addJobForm">
+                            <div class="form-group">
+                                <label>Job Title</label>
+                                <input type="text" id="jobTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea id="jobDescription" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Budget (₹)</label>
+                                <input type="number" id="jobBudget" required min="1">
+                            </div>
+                            <button type="submit" class="btn-primary">Post Job</button>
+                        </form>
+                    </div>
+                `;
+                
+                document.getElementById('modals').appendChild(modal);
+                
+                // Close modal
+                modal.querySelector('.modal-close').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                // Form submission
+                document.getElementById('addJobForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addJob();
+                    modal.remove();
+                });
+            }
+
+            // Add new job (user)
+            addJob() {
+                const title = document.getElementById('jobTitle').value;
+                const description = document.getElementById('jobDescription').value;
+                const budget = parseInt(document.getElementById('jobBudget').value);
+                
+                const newJob = {
+                    id: this.generateId(),
+                    title,
+                    description,
+                    budget,
+                    postedBy: this.currentUser.id,
+                    status: 'open',
+                    assignedTo: null,
+                    applications: []
+                };
+                
+                this.db.jobs.push(newJob);
+                this.saveDB();
+                this.loadUserFreelanceJobs();
+                this.showMessage('Job posted successfully', 'success');
+            }
+
+            // Update user balance display
+            updateUserBalanceDisplay() {
+                document.getElementById('userBalance').textContent = `₹${this.currentUser.balance}`;
+                document.getElementById('user-wallet-balance').textContent = `₹${this.currentUser.balance}`;
+            }
+
+            // Add transaction
+            addTransaction(userId, amount, type, note) {
+                const transaction = {
+                    id: this.generateId(),
+                    userId,
+                    amount,
+                    type,
+                    note,
+                    date: new Date().toISOString()
+                };
+                
+                this.db.transactions.push(transaction);
+            }
+
+            // Get user by ID
+            getUserById(userId) {
+                return this.db.users.find(u => u.id === userId) || { name: 'Unknown User' };
+            }
+
+            // Export data
+            exportData() {
+                const dataStr = JSON.stringify(this.db, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = 'presingo_data.json';
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+            }
+
+            // Reset all data
+            resetData() {
+                if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+                    localStorage.removeItem('presingo_db');
+                    localStorage.removeItem('presingo_device_registered');
+                    localStorage.removeItem('presingo_current_user');
+                    localStorage.removeItem('presingo_current_panel');
+                    location.reload();
+                }
+            }
+
+            // Show message
+            showMessage(message, type) {
+                // Simple alert for demo - in production, use a better notification system
+                alert(`${type.toUpperCase()}: ${message}`);
+            }
+
+            // Manage job (user - placeholder)
+            manageJob(jobId) {
+                this.showMessage('Job management feature coming soon', 'info');
+            }
+
+            // Edit affiliate (placeholder)
+            editAffiliate(productId) {
+                this.showMessage('Edit affiliate feature coming soon', 'info');
+            }
+        }
+
+        // Initialize the application when the page loads
+        const app = new PresingoApp();
+    </script>
+</body>
+</html>
